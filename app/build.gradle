@@ -1,0 +1,61 @@
+//build.gradle(:app)
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace = "eye.application"
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = "eye.application"
+        minSdk = 26
+        targetSdk = 35
+        versionCode = 1
+        versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled = true
+            shrinkResources = true
+            proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+            )
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    // R 파일 인식 안 되는 문제 해결
+    sourceSets {
+        getByName("main") {
+            java.srcDirs("src/main/java")
+            res.srcDirs("src/main/res")
+            manifest.srcFile("src/main/AndroidManifest.xml")
+            jniLibs.srcDirs("src/main/jniLibs")
+        }
+    }
+}
+
+dependencies {
+
+    implementation 'org.pytorch:pytorch_android_lite:1.13.1'
+    implementation 'org.pytorch:pytorch_android_torchvision_lite:1.13.1'
+
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation(libs.activity)
+    implementation(libs.constraintlayout)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+    implementation(project(":OpenCVLibrary411"))
+
+    implementation("androidx.exifinterface:exifinterface:1.4.1")
+}
